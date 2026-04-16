@@ -1,6 +1,9 @@
 from django.urls import path
-from .views.auth import (
+from .views.register import (
     RegisterView,
+)
+
+from .views.login import (
     LoginView
 )
 
