@@ -6,6 +6,11 @@ from ..validators.email import validate_email_format
 from ..validators.password import validate_password_strength
 from ..validators.cpf import validate_cpf as validate_cpf_format
 
+from ..utils.information_normalized import (
+    normalize_email,
+    normalize_cpf
+)
+
 User = get_user_model()
 
 
@@ -19,6 +24,7 @@ class RegisterSerializer(serializers.Serializer):
     oab_state = serializers.CharField()
 
     def validate_email(self, value):
+        value = normalize_email(value)
         value = validate_email_format(value)
 
         if User.objects.filter(email=value).exists():
@@ -30,6 +36,7 @@ class RegisterSerializer(serializers.Serializer):
         return validate_password_strength(value)
 
     def validate_cpf(self, value):
+        value = normalize_cpf(value)
         value = validate_cpf_format(value)
 
         if LawyerProfile.objects.filter(cpf=value).exists():
@@ -40,7 +47,7 @@ class RegisterSerializer(serializers.Serializer):
     def create(self, validated_data):
         profile_data = {
             "full_name": validated_data.pop("full_name"),
-            "cpf": validated_data.pop("cpf"),
+            "cpf": normalize_cpf(validated_data.pop("cpf")),
             "oab_number": validated_data.pop("oab_number"),
             "oab_state": validated_data.pop("oab_state"),
         }

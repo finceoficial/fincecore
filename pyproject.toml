@@ -11,6 +11,7 @@ djangorestframework = "^3.17.1"
 requests = "^2.33.1"
 google-auth = "^2.49.2"
 djangorestframework-simplejwt = "^5.5.1"
+django-ratelimit = "^4.1.0"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
