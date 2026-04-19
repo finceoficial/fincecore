@@ -1,3 +1,7 @@
-from django.urls import path
+from rest_framework.routers import DefaultRouter
+from ..firms.views.firm import FirmViewSet
 
-urlpatterns = []
+router = DefaultRouter()
+router.register("", FirmViewSet, basename="firms")
+
+urlpatterns = router.urls
