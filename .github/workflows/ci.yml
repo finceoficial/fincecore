@@ -1,0 +1,41 @@
+name: CI Patroa
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      SECRET_KEY: testsecret
+      DEBUG: True
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Configure Poetry
+        run: poetry config virtualenvs.create false
+
+      - name: Install dependencies
+        run: poetry install --no-interaction --no-root
+
+      - name: Run migrations
+        run: python manage.py migrate
+
+      - name: Check project
+        run: python manage.py check
+
+      - name: Collect static
+        run: python manage.py collectstatic --noinput
