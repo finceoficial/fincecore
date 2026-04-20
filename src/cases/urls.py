@@ -1,3 +1,7 @@
-from django.urls import path
+from rest_framework.routers import DefaultRouter
+from ..cases.views.case import CaseViewSet
 
-urlpatterns = []
+router = DefaultRouter()
+router.register("", CaseViewSet, basename="cases")
+
+urlpatterns = router.urls
