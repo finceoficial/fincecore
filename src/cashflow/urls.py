@@ -1,3 +1,7 @@
-from django.urls import path
+from rest_framework.routers import DefaultRouter
+from src.cashflow.views.cashflow import CashflowViewSet
 
-urlpatterns = []
+router = DefaultRouter()
+router.register("", CashflowViewSet, basename="cashflow")
+
+urlpatterns = router.urls
